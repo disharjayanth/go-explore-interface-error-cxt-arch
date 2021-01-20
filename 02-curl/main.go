@@ -10,8 +10,8 @@ import (
 	"strings"
 )
 
+// ErrUserNotFound User Not Found Error
 // Action layer
-// User Not Found Error
 var ErrUserNotFound = errors.New("User not found")
 
 type User struct {
@@ -47,6 +47,7 @@ func (ms *MemoryUserStorage) Save(ctx context.Context, user *User) error {
 	return nil
 }
 
+// Buisness Layer
 type RegisterParams struct {
 	Email string `json:"email"`
 	Name  string `json:"name"`
