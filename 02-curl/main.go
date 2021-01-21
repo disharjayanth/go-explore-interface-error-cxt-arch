@@ -198,7 +198,6 @@ func (jsonOverHTTP *JSONOverHTTP) GetUser(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 }
 
 func main() {
