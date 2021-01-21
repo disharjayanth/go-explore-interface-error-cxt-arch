@@ -1,5 +1,6 @@
 <h1>Curl commands for GET and POST</h1>
 <h2>Flags:</h2>
+<h3>curl [flags] [URL]</h3>
 <ul>
 <li>-v => verbose flag for more information on sent and received</li>
 <li>-XGET => default curl command is get</li>
