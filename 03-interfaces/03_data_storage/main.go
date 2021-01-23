@@ -42,6 +42,18 @@ func get(a accessor, n int) person {
 	return a.retrieve(n)
 }
 
+type personService struct {
+	access accessor
+}
+
+func (ps personService) getService(n int) (person, error) {
+	p := ps.access.retrieve(n)
+	if p.first == "" {
+		return p, fmt.Errorf("The person with given id %d is not present in dbm ", n)
+	}
+	return p, nil
+}
+
 func main() {
 	dbm := mongo{}
 	dbpg := postg{}
@@ -71,4 +83,11 @@ func main() {
 
 	fmt.Println("Accessing postg map dbpg with key 1:", get(dbpg, 1))
 	fmt.Println("Accessing postg map dbpg with key 2:", get(dbpg, 2))
+
+	ps := personService{
+		access: dbm,
+	}
+
+	fmt.Println(ps.getService(1))
+	fmt.Println(ps.getService(4))
 }
