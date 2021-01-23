@@ -25,6 +25,7 @@ func main() {
 		Age:  20,
 	}
 
+	fmt.Printf("%T\n", person)
 	fmt.Println("This is from info method from Person type:", person.Info())
 	fmt.Println("This is from InfoOnSomething interface:", InfoOnSomething(person))
 }
