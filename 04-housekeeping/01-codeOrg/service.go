@@ -11,6 +11,9 @@ type Person struct {
 	Age   int
 }
 
+// Accessor is how to retrieve or store a person since person has both save, retrieve methods.
+// Therefore person is of type accessor too.
+// If retrieve does not have person with given id, it returns zero value (ie Person{}).
 type Accessor interface {
 	Save(n int, p Person)
 	Retrieve(n int) Person
