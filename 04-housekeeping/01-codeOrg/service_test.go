@@ -3,6 +3,8 @@ package architecture
 import (
 	"fmt"
 	"testing"
+
+	"github.com/golang/mock/gomock"
 )
 
 type Mongo map[int]Person
@@ -16,17 +18,19 @@ func (m Mongo) Retrieve(n int) Person {
 }
 
 func TestPut(t *testing.T) {
-	mdb := Mongo{}
+	ctl := gomock.NewController(t)
+	acc := NewMockAccessor(ctl)
 	person := Person{
 		First: "Jamie",
 		Last:  "Jones",
 		Age:   29,
 	}
-	Put(mdb, 2, person)
 
-	if got := mdb.Retrieve(2); got != person {
-		t.Errorf("Got %v, want %v", got, person)
-	}
+	acc.EXPECT().Save(2, person).MinTimes(1).MaxTimes(1)
+
+	Put(acc, 2, person)
+
+	ctl.Finish()
 }
 
 // ExampleTest(in this case its Example*nameoftest*) doesnt take any args and doesnt return anything
