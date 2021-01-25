@@ -29,6 +29,7 @@ func TestPut(t *testing.T) {
 	}
 }
 
+// ExampleTest(in this case its Example*nameoftest*) doesnt take any args and doesnt return anything
 func ExamplePut() {
 	mdb := Mongo{}
 	person := Person{
@@ -41,4 +42,5 @@ func ExamplePut() {
 	got := Get(mdb, 3)
 
 	fmt.Println(got)
+	// Output: {John Snow 33}
 }
