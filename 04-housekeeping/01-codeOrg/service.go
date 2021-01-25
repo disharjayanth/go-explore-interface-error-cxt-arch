@@ -19,10 +19,14 @@ type Accessor interface {
 	Retrieve(n int) Person
 }
 
+// Put takes in a accessor (any type having Save and Retrieve methods are of type accessor) and
+// Person and save it in-memory database.
 func Put(a Accessor, n int, p Person) {
 	a.Save(n, p)
 }
 
+// Get takes in a accessor (any type having Save and Retrieve methods are of type accessor) and
+// id (n) and retrieves it from in-memory database.
 func Get(a Accessor, n int) Person {
 	return a.Retrieve(n)
 }
