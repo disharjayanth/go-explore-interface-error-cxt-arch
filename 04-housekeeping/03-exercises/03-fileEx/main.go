@@ -11,11 +11,13 @@ func main() {
 	if err != nil {
 		fmt.Println("Cannot open file01.txt", err)
 	}
+	defer file.Close()
 
 	newFile, err := os.Create("file02.txt")
 	if err != nil {
 		fmt.Println("Cannot create new file file02.txt", err)
 	}
+	defer newFile.Close()
 
 	written, err := io.Copy(newFile, file)
 	if err != nil {
