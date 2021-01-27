@@ -16,12 +16,12 @@ func makeRequest(ctx context.Context, route string) (string, error) {
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, route, nil)
 	if err != nil {
-		return "", fmt.Errorf("Cannot create context request: ", err)
+		return "", fmt.Errorf("Cannot create context request: %v", err)
 	}
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("Cannot make a context request to google.com", err)
+		return "", fmt.Errorf("Cannot make a context request to google.com: %v", err)
 	}
 	defer res.Body.Close()
 
@@ -31,7 +31,7 @@ func makeRequest(ctx context.Context, route string) (string, error) {
 
 	sb, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return "", fmt.Errorf("Error reading from response body: ", err)
+		return "", fmt.Errorf("Error reading from response body: %v", err)
 	}
 
 	return string(sb), nil
