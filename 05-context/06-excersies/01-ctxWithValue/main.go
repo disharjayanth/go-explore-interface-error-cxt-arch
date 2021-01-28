@@ -7,8 +7,6 @@ import (
 	"github.com/disharjayanth/go-explore-interface-error-cxt-arch/05-context/06-excersies/01-ctxWithValue/user"
 )
 
-// This is from example branch
-
 func main() {
 	ctx := context.Background()
 	ctx = user.AddUserID(ctx, 1)
