@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Currently No. of Goroutine running:", runtime.NumGoroutine())
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 
@@ -30,10 +31,10 @@ func main() {
 	}
 
 	fmt.Println("Sleeing for 5seconds")
-	time.Sleep(5000 * time.Millisecond)
+	time.Sleep(time.Millisecond)
 	cancel()
 	fmt.Println("Sleeing for 2seconds")
-	time.Sleep(2 * time.Second)
+	time.Sleep(200 * time.Millisecond)
 	fmt.Println("Currently No. of Goroutine running:", runtime.NumGoroutine())
 	fmt.Println("End....")
 }
