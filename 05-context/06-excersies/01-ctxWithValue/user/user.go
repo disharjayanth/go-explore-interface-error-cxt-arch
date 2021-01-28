@@ -8,7 +8,6 @@ type key int
 
 const userID key = 0
 const userName key = 1
-const userName2 key = 2
 
 // AddUserID adds in a userid for given ctx
 func AddUserID(ctx context.Context, id int) context.Context {
@@ -31,7 +30,7 @@ func GetUserID(ctx context.Context) *int {
 
 // GetUserName gets name for given ctx
 func GetUserName(ctx context.Context) *string {
-	name, ok := ctx.Value(userName2).(string)
+	name, ok := ctx.Value(userName).(string)
 	if !ok {
 		return nil
 	}
