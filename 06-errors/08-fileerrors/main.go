@@ -17,7 +17,7 @@ func NewWriteFile(name string) *WriteFile {
 	f, err := os.Create(name)
 	return &WriteFile{
 		f:   f,
-		err: err,
+		err: fmt.Errorf("Error while creating new file: %w", err),
 	}
 }
 
@@ -27,7 +27,7 @@ func (wf *WriteFile) WriteString(content string) {
 		return
 	}
 	_, err := io.WriteString(wf.f, content)
-	wf.err = err
+	wf.err = fmt.Errorf("Error while writing string to file: %w", err)
 }
 
 // Close closes the file
@@ -36,7 +36,9 @@ func (wf *WriteFile) Close() {
 		return
 	}
 	err := wf.f.Close()
-	wf.err = err
+	if err != nil {
+		wf.err = fmt.Errorf("Error while closing file: %w", err)
+	}
 }
 
 // Error returns error if there is any
