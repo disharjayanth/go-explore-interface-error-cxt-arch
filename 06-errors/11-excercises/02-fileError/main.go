@@ -3,24 +3,22 @@ package main
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 )
 
-var errFileDoesNotExists = os.ErrNotExist
+type FileInfo struct {
+	name              string
+	FileDoesNotExists error
+	FilePathError     error
+}
 
 func fileOperation(dest, src string) error {
 	file, err := os.Open(src)
 	defer file.Close()
 	if err != nil {
 		err = fmt.Errorf("Error while opening file sample1.txt: %w", err)
-		return err
-	}
-
-	sb, err := ioutil.ReadAll(file)
-	if err != nil {
-		err = fmt.Errorf("Error while reading file sample.txt and converting to slice of byte: %w", err)
 		return err
 	}
 
@@ -31,10 +29,9 @@ func fileOperation(dest, src string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile("sample2.txt", sb, os.FileMode(os.O_RDWR))
+	_, err = io.Copy(writeFile, file)
 	if err != nil {
-		err = fmt.Errorf("Error while writing from sample1.txt to sample2.txt")
-		return err
+		return fmt.Errorf("Could not copy file from dest to src: %w", err)
 	}
 
 	return nil
@@ -44,11 +41,14 @@ func main() {
 	src := "sample1.txt"
 	dest := "sample2.txt"
 
+	var FilePathError *os.PathError
 	err := fileOperation(dest, src)
 
-	if errors.Is(err, errFileDoesNotExists) {
-		// Since user's error use fmt
-		fmt.Println("You need to type filename that exist (sample1.txt)")
+	if errors.Is(err, os.ErrNotExist) && errors.As(err, &FilePathError) {
+		// Since user's error(may have entered wrong filename) use fmt
+		fmt.Println("Error file you gave does not exist:", FilePathError.Op, "at path:", FilePathError.Path, "operation:", FilePathError.Err)
+	} else if errors.As(err, &FilePathError) {
+		fmt.Println("Error in copy operation:", FilePathError.Err, FilePathError.Path, FilePathError.Op)
 	} else if err != nil {
 		log.Println("Error:", err)
 		return
